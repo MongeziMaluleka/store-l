@@ -1,0 +1,32 @@
+{%- comment -%}
+  File: sections/header.liquid
+  Purpose: Displays the store header with the shop name (logo) and navigation menu.
+{%- endcomment -%}
+
+<header>
+  <!-- Shop name (clickable logo/title) -->
+  <h1>{{ shop.name }}</h1>
+
+  <!-- Navigation menu -->
+  <nav>
+    {%- comment -%}
+      linklists.main-menu-1.links → Loops through a menu called "main-menu-1".
+      In Shopify, menus are created in:
+        Admin → Online Store → Navigation
+      Each menu you create has a handle (like main-menu, footer-menu).
+      
+      Example:
+        If you create a menu called "Main Menu",
+        its handle will usually be "main-menu".
+      
+      Replace "main-menu-1" with the actual handle of your menu.
+    {%- endcomment -%}
+
+    {% for link in linklists.main-menu-1.links %} 
+      <!-- Each menu item -->
+      <a href="{{ link.url }}">
+        {{ link.title }}
+      </a>
+    {% endfor %}
+  </nav>
+</header>

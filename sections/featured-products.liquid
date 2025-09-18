@@ -1,0 +1,74 @@
+{%- comment -%}
+  File: sections/featured-products.liquid
+  Purpose: Displays featured products on the homepage or specific collections.
+{%- endcomment -%}
+
+<!-- Featured products from the "Frontpage" collection -->
+<h2>Featured Products</h2>
+<ul class="products">
+  {%- comment -%}
+    collections.frontpage → special collection Shopify uses for homepage products
+    This loops through every product in the "Frontpage" collection.
+  {%- endcomment -%}
+  {% for product in collections.frontpage.products %}
+    <li>
+      <!-- If the product has an image, display it -->
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      {% endif %}
+
+      <!-- Product title -->
+      <h3>{{ product.title }}</h3>
+
+      <!-- Product price (formatted in store currency) -->
+      <p>{{ product.price | money }}</p>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Collection heading & description -->
+{%- comment -%}
+  The {{ collection }} object automatically represents the
+  current collection (when this section is used in collection.liquid).
+{%- endcomment -%}
+<h1>{{ collection.title }}</h1>
+<p>{{ collection.description }}</p>
+
+<!-- All products in the current collection -->
+<ul class="products">
+  {% for product in collection.products %}
+    <li>
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      {% endif %}
+      <h3>{{ product.title }}</h3>
+      <p>{{ product.price | money }}</p>
+
+      <!-- Link to the product page -->
+      <a href="{{ product.url }}">View Product</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Example: Custom collection (T-Shirts) -->
+{%- comment -%}
+  This section pulls in products from a specific collection called "T-Shirts".
+  NOTE: Collection handles in Shopify are lowercase and hyphenated.
+  If your collection is called "T-Shirts", the handle is usually "t-shirts".
+  So instead of collections['T-Shirts'] you should use collections['t-shirts'].
+{%- endcomment -%}
+
+<h2>T-Shirts</h2>
+<ul class="products">
+  {% assign tshirts = collections['t-shirts'] %}
+  {% for product in tshirts.products %}
+    <li>
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      {% endif %}
+      <h3>{{ product.title }}</h3>
+      <p>{{ product.price | money }}</p>
+      <a href="{{ product.url }}">View Product</a>
+    </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,48 @@
+{%- comment -%}
+  File: sections/hero.liquid
+  Purpose: Displays a hero banner at the top of the homepage.
+  This is where you highlight your brand, a promotion, or a key product line.
+{%- endcomment -%}
+
+<section class="hero">
+  <!-- Hero headline -->
+  <h1>Welcome to {{ shop.name }}!</h1>
+
+  <!-- Subheadline (you can edit this text directly in Liquid or make it dynamic later) -->
+  <p>Shop our latest collection now.</p>
+
+  <!-- Call-to-action button that links to the "All Products" collection -->
+  <a href="/collections/all" class="btn">Shop Now</a>
+</section>
+{% comment %} 
+<style>
+  /* ===== Hero Section Styling ===== */
+  .hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-bottom: 1px solid #ddd;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  .hero .btn {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  .hero .btn:hover {
+    background: #333;
+  }
+</style> {% endcomment %}
