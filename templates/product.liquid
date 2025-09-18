@@ -1,0 +1,32 @@
+<div class="product-page">
+  <div class="product-container">
+    <!-- Left: Product Image -->
+    <div class="product-image">
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+      {% endif %}
+    </div>
+
+    <!-- Right: Product Details -->
+    <div class="product-details">
+      <h1>{{ product.title }}</h1>
+
+      {% if product.vendor %}
+        <p class="brand"><strong>Brand:</strong> {{ product.vendor }}</p>
+      {% endif %}
+
+      {% if product.options.size %}
+        <p class="size"><strong>Size:</strong> {{ product.options.size | join: ', ' }}</p>
+      {% endif %}
+
+      <p class="description">{{ product.description }}</p>
+      <p class="price">{{ product.price | money }}</p>
+
+      <!-- Add to Cart -->
+      <form action="/cart/add" method="post">
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+{% assign coll = collections[section.settings.collection_handle] %}
+
+{% if coll.products.size > 0 %}
+  <h2 style="background-color: {{ section.settings.header_color }}; padding:10px; border-radius:5px;">
+    {{ section.settings.title }}
+  </h2>
+
+  <ul class="products">
+    {% for product in coll.products %}
+      <li class="item-card">
+        {% if product.featured_image %}
+          <a href="/products/{{ product.handle }}">
+            <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+          </a>
+        {% endif %}
+
+        <h3>
+          <a href="/products/{{ product.handle }}">{{ product.title }}</a>
+        </h3>
+
+        <p class="price">{{ product.price | money }}</p>
+
+        <a href="/products/{{ product.handle }}" class="view-btn">View Product</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No products in this collection yet.</p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collection List",
+  "settings": [
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection Handle",
+      "default": "t-shirts",
+      "info": "Enter the handle of the Shopify collection to display (e.g., t-shirts, hoodies)."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "T-Shirts",
+      "info": "Title to display above the collection."
+    },
+    {
+      "type": "color",
+      "id": "header_color",
+      "label": "Header background color",
+      "default": "#f5f5f5",
+      "info": "Optional background color for the collection header."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List"
+    }
+  ]
+}
+{% endschema %}

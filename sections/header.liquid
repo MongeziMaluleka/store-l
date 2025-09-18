@@ -3,12 +3,17 @@
   Purpose: Displays the store header with the shop name (logo) and navigation menu.
 {%- endcomment -%}
 
-<header>
+<header class="site-header">
+  {%- comment -%}
+    shop.name → Outputs the name of your Shopify store.
+    You can change your store name in:
+      Admin → Settings → Store details
+  {%- endcomment -%}
   <!-- Shop name (clickable logo/title) -->
-  <h1>{{ shop.name }}</h1>
+  <h1 class="site-name">{{ shop.name }}</h1>
 
   <!-- Navigation menu -->
-  <nav>
+  <nav class="site-nav">
     {%- comment -%}
       linklists.main-menu-1.links → Loops through a menu called "main-menu-1".
       In Shopify, menus are created in:
@@ -24,7 +29,7 @@
 
     {% for link in linklists.main-menu-1.links %} 
       <!-- Each menu item -->
-      <a href="{{ link.url }}">
+      <a href="{{ link.url }}" class="nav-link">
         {{ link.title }}
       </a>
     {% endfor %}
