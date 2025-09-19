@@ -1,10 +1,18 @@
+{% comment %}
+  Collection List Section
+  Displays products from a specified Shopify collection.
+{% endcomment %}
 {% assign coll = collections[section.settings.collection_handle] %}
+
 
 {% if coll.products.size > 0 %}
   <h2 style="background-color: {{ section.settings.header_color }}; padding:10px; border-radius:5px;">
     {{ section.settings.title }}
   </h2>
-
+    {% comment %}
+      Loop through products in the specified collection
+      Each product displays its image, title, price, and a link to view the product
+    {% endcomment %}
   <ul class="products">
     {% for product in coll.products %}
       <li class="item-card">
@@ -13,7 +21,7 @@
             <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
           </a>
         {% endif %}
-
+        
         <h3>
           <a href="/products/{{ product.handle }}">{{ product.title }}</a>
         </h3>

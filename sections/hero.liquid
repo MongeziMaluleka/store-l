@@ -1,16 +1,35 @@
-{%- comment -%}
-  File: sections/hero.liquid
-  Purpose: Displays a hero banner at the top of the homepage.
-  This is where you highlight your brand, a promotion, or a key product line.
-{%- endcomment -%}
-
-<section class="hero">
-  <!-- Hero headline -->
+<section class="hero hero--{{ section.id }}">
   <h1>Welcome to {{ shop.name }}!</h1>
-
-  <!-- Subheadline (you can edit this text directly in Liquid or make it dynamic later) -->
   <p>Shop our latest collection now.</p>
-
-  <!-- Call-to-action button that links to the "All Products" collection -->
   <a href="/collections/all" class="btn">Shop Now</a>
+
+  {% comment %}
+    Dynamic background image styling
+    If a background image is set in the section settings, apply it as the section's background
+  {% endcomment %}
+  {%- style -%}
+    .hero--{{ section.id }}{
+      {% if section.settings.bg_image %}
+        background-image: url({{ section.settings.bg_image | image_url: width: 2000 }});
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      {% endif %}
+    }
+  {%- endstyle -%}
 </section>
+
+{% comment %}
+  Schema for the Hero section
+  Allows selection of a background image in the theme editor
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "bg_image", "label": "Background image" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

@@ -1,3 +1,4 @@
+
 [
   {
     "name": "Collection List",
@@ -20,41 +21,9 @@
         "type": "color",
         "id": "header_color",
         "label": "Header background color",
-        "default": "#f5f5f5",
+        "default": "#ffffff",
         "info": "Optional: set a custom background color for the collection title header."
       }
     ]
   }
 ]
-
-// {
-//   "name": "Collection List",
-//   "settings": [
-//     {
-//       "type": "text",
-//       "id": "collection_handle",
-//       "label": "Collection Handle",
-//       "default": "t-shirts",
-//       "info": "Enter the handle of the Shopify collection to display."
-//     },
-//     {
-//       "type": "text",
-//       "id": "title",
-//       "label": "Title",
-//       "default": "T-Shirts",
-//       "info": "Title to display above the collection."
-//     },
-//     {
-//       "type": "color",
-//       "id": "header_color",
-//       "label": "Header background color",
-//       "default": "#f5f5f5",
-//       "info": "Optional header background color."
-//     }
-//   ],
-//   "presets": [
-//     {
-//       "name": "Collection List"
-//     }
-//   ]
-// }

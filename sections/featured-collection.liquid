@@ -1,0 +1,29 @@
+{% comment %}
+    Featured Collection Section
+    Displays products from a specified collection in a horizontal layout
+{% endcomment %}
+{% assign coll = collections[section.settings.collection_handle] %}
+
+{% comment %}
+    Check if the collection has products
+    If yes, display the section title and products
+    Each product shows its image linking to the product page
+{% endcomment %}
+{% if coll.products.size > 0 %}
+    <h2 class="section-header" style="background-color: {{ section.settings.header_color }};">
+        {{ section.settings.title }}
+    </h2>   
+    <div class="featured-collection">
+        {% for product in coll.products %}
+        <li class="item-card">
+            {% if product.featured_image %}
+                <a href="/products/{{ product.handle }}">
+                    <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+                </a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No products in this collection yet.</p>
+{% endif %} 

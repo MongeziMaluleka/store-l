@@ -47,12 +47,15 @@ body {
 .hero { 
     text-align: center; 
     padding: 50px 20px; 
-    background: url('{{ 'hero.jpg' | asset_url }}') no-repeat center/cover; 
+    background: url('hero.jpg') no-repeat center/cover; 
     color: rgb(12, 12, 12); 
+    min-width: none;
+    min-height: 300px;
 }
 
 .hero h1 {
     font-size: 36px;
+    margin-top: 140px;
     margin-bottom: 20px;
 }
 
