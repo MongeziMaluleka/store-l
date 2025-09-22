@@ -16,6 +16,13 @@
     the full Shopify CDN URL for that asset.
   {%- endcomment -%}
   <link rel="stylesheet" href="{{ 'style.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'featured_collections.css' | asset_url }}">
+
+  {%- comment -%}
+    This sets the viewport for responsive design,
+    ensuring the site scales correctly on mobile devices.
+  {%- endcomment -%}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   {%- comment -%}
     {{ content_for_header }} is REQUIRED by Shopify.
