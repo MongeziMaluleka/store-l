@@ -7,6 +7,14 @@
 {%- endcomment -%}
 
 <section class="cmenu cmenu--{{ section.id }}">
+  {% comment %} <a href="/" class="header-logo__link">
+    <img src="{{ 'logo.jpg' | asset_url }}" alt="{{ shop.name }}" class="header-logo__image">
+  </a> {% endcomment %}
+
+  {%- comment -%}
+    section.settings.heading → Customizable heading for the collections menu.
+    If left blank, no heading is displayed.
+  {%- endcomment -%}
   {%- if section.settings.heading != blank -%}
     <h2 class="cmenu__heading">{{ section.settings.heading | escape }}</h2>
   {%- endif -%}

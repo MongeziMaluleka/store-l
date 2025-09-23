@@ -4,10 +4,15 @@
 {%- endcomment -%}
 
 <header class="site-header">
+  <a class="header-logo__link" href="/">
+    <img src="{{ 'logo.jpg' | asset_url }}" alt="{{ shop.name }}" class="header-logo__image">
+  </a>
+
+  
 
   <button class="menu-toggle" aria-label="Toggle menu">
     <!-- Hamburger icon -->
-    <span class="hamburger">NAV MENU</span>
+    <span class="">NAV MENU</span>
   </button>
   {%- comment -%}
     shop.name → Outputs the name of your Shopify store.
