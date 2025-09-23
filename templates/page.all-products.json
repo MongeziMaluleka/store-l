@@ -1,0 +1,14 @@
+{
+  "name": "T‑Shirts",
+  "sections": {
+    "main": {
+      "type": "collection-list",
+      "settings": {
+        "collection_handle": "t-shirts",
+        "title": "T‑Shirts",
+        "header_color": "#f5f5f5"
+      }
+    }
+  },
+  "order": ["main"]
+}

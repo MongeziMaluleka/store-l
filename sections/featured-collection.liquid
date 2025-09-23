@@ -1,61 +1,70 @@
-<section class="featured-collections">
-  {%- comment -%}
-    Featured Collections Section
-    Displays up to three selected collections in a grid layout.
-  {%- endcomment -%}
+{%- comment -%}
+  Section: Featured
+  Purpose: Display products from a specified Shopify collection by handle.
+{%- endcomment -%}
 
-  {%- comment -%}
-    Display the heading if it is set in the section settings.
-    Use the 'escape' filter to prevent XSS attacks.
-  {%- endcomment -%}
-  {%- if section.settings.heading != blank -%}
-    <h2 class="featured-collections__heading">{{ section.settings.heading | escape }}</h2>
-  {%- endif -%}
+<section class="featured featured--{{ section.id }}">
+  {%- assign coll = collections[section.settings.collection_handle] -%}
 
-  <p>Selected count: {{ section.settings.collections | size }}</p>
+  {%- if coll and coll.products.size > 0 -%}
+    <header class="featured__header">
+      <h2 class="featured__title">{{ section.settings.title | escape }}</h2>
+    </header>
 
-  <div class="featured-collections__grid">
-    {%- comment -%}
-      Loop through the selected collections (up to 3) and display each one.
-      If no collections are selected, show a message prompting the user to select some.
-    {%- endcomment -%}
-    {%- assign picked = section.settings.collections -%}
-    {%- if picked and picked.size > 0 -%}
-      {%- for collection in picked limit: 3 -%}
-        {%- if collection -%}
-          <article class="collection-card">
-            <a class="collection-card__link" href="{{ collection.url }}">
-              <div class="collection-card__image-wrap">
-                {%- if collection.image -%}
-                  <img src="{{ collection.image | image_url: width: 800 }}" alt="{{ collection.title | escape }}" width="800" height="600" loading="lazy">
-                {%- elsif collection.products_count > 0 and collection.products.first.featured_image -%}
-                  <img src="{{ collection.products.first.featured_image | image_url: width: 800 }}" alt="{{ collection.title | escape }}" width="800" height="600" loading="lazy">
-                {%- else -%}
-                  <div class="collection-card__placeholder"></div>
-                {%- endif -%}
-              </div>
-              <h3 class="collection-card__title">{{ collection.title }}</h3>
+    <ul class="featured__grid">
+      {%- for product in coll.products -%}
+        <li class="featured-card">
+          <a class="featured-card__image-link" href="/products/{{ product.handle }}">
+            {%- if product.featured_image -%}
+              <img
+                class="featured-card__image"
+                src="{{ product.featured_image | img_url: 'medium' }}"
+                alt="{{ product.title | escape }}">
+            {%- else -%}
+              <span class="featured-card__image featured-card__image--placeholder"></span>
+            {%- endif -%}
+          </a>
+
+          <h3 class="featured-card__title">
+            <a class="featured-card__title-link" href="/products/{{ product.handle }}">
+              {{ product.title }}
             </a>
-          </article>
-        {%- endif -%}
+          </h3>
+
+          <p class="featured-card__price">{{ product.price | money }}</p>
+
+          <a class="featured-card__cta" href="/products/{{ product.handle }}">View Product</a>
+        </li>
       {%- endfor -%}
-    {%- else -%}
-      <p class="featured-collections__empty">Select up to three collections in the section settings.</p>
-    {%- endif -%}
-  </div>
+    </ul>
+  {%- else -%}
+    <header class="featured__header">
+      <h2 class="featured__title">{{ section.settings.title | escape }}</h2>
+    </header>
+    <p class="featured__empty">No products in this collection yet.</p>
+  {%- endif -%}
 </section>
 
-{%- comment -%}
-  Schema for the Featured Collections section
-  Allows selection of up to three collections and a custom heading in the theme editor
-{%- endcomment -%}
 {% schema %}
 {
-  "name": "Featured collections (3)",
+  "name": "Featured",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured collections" },
-    { "type": "collection_list", "id": "collections", "label": "Collections", "limit": 3 }
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection handle",
+      "default": "featured",
+      "info": "Enter the collection handle (example: featured)."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured Collection"
+    }
   ],
-  "presets": [{ "name": "Featured collections (3)" }]
+  "presets": [
+    { "name": "Featured" }
+  ]
 }
 {% endschema %}

@@ -1,14 +1,16 @@
 <section class="hero hero--{{ section.id }}">
   <h1>Welcome to {{ shop.name }}!</h1>
   <p>Shop our latest collection now.</p>
-  <a href="/collections/all" class="btn">Shop Now</a>
+  <!-- Shop Now button sends user to the All Products collection -->
+  {% comment %} <a href="{{ routes.collections_url }}" class="btn">Shop Now</a> {% endcomment %}
+  <a href="{{ collections['all-products'].url }}" class="btn">Shop Now</a>
 
   {% comment %}
     Dynamic background image styling
     If a background image is set in the section settings, apply it as the section's background
   {% endcomment %}
   {%- style -%}
-    .hero--{{ section.id }}{
+    .hero--{{ section.id }} {
       {% if section.settings.bg_image %}
         background-image: url({{ section.settings.bg_image | image_url: width: 2000 }});
         background-position: center;
@@ -23,7 +25,6 @@
   Schema for the Hero section
   Allows selection of a background image in the theme editor
 {% endcomment %}
-
 {% schema %}
 {
   "name": "Hero",
