@@ -1,47 +1,59 @@
 {%- comment -%}
-  File: sections/header.liquid
-  Purpose: Displays the store header with the shop name (logo) and navigation menu.
+  Header: logo + collections chips + main nav in one line
 {%- endcomment -%}
 
 <header class="site-header">
-  <a class="header-logo__link" href="/">
-    <img src="{{ 'logo.jpg' | asset_url }}" alt="{{ shop.name }}" class="header-logo__image">
+  <!-- Logo -->
+  <a class="header-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+    <img class="header-logo__image" src="{{ 'logo.jpg' | asset_url }}" alt="{{ shop.name | escape }}">
   </a>
 
-  
+  <!-- Collections chips (handle-based, link to collection pages) -->
+  <nav class="collections-nav" aria-label="Collections">
+    <ul class="collections-nav__list">
+      {%- for i in (1..10) -%}
+        {%- assign key = 'handle_' | append: i -%}
+        {%- assign h = section.settings[key] -%}
+        {%- if h != blank -%}
+          {%- assign c = collections[h] -%}
+          <li class="collections-nav__item">
+            {%- if c -%}
+              <a class="collections-nav__link" href="{{ c.url }}">{{ c.title }}</a>
+            {%- else -%}
+              <span class="collections-nav__link collections-nav__link--missing">Missing: {{ h }}</span>
+            {%- endif -%}
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </nav>
 
-  <button class="menu-toggle" aria-label="Toggle menu">
-    <!-- Hamburger icon -->
-    <span class="">NAV MENU</span>
-  </button>
-  {%- comment -%}
-    shop.name → Outputs the name of your Shopify store.
-    You can change your store name in:
-      Admin → Settings → Store details
-  {%- endcomment -%}
-  <!-- Shop name (clickable logo/title) -->
-  <h1 class="site-name">{{ shop.name }}</h1>
-
-  <!-- Navigation menu -->
-  <nav class="site-nav">
-    {%- comment -%}
-      linklists.main-menu-1.links → Loops through a menu called "main-menu-1".
-      In Shopify, menus are created in:
-        Admin → Online Store → Navigation
-      Each menu you create has a handle (like main-menu, footer-menu).
-      
-      Example:
-        If you create a menu called "Main Menu",
-        its handle will usually be "main-menu".
-      
-      Replace "main-menu-1" with the actual handle of your menu.
-    {%- endcomment -%}
-
-    {% for link in linklists.main-menu-1.links %} 
-      <!-- Each menu item -->
-      <a href="{{ link.url }}" class="nav-link">
-        {{ link.title }}
-      </a>
-    {% endfor %}
+  <!-- Main menu -->
+  <nav class="site-nav" aria-label="Main">
+    {%- if linklists.main-menu-1 and linklists.main-menu-1.links.size > 0 -%}
+      {%- for link in linklists.main-menu-1.links -%}
+        <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+      {%- endfor -%}
+    {%- endif -%}
   </nav>
 </header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "header", "content": "Collections handles" },
+    { "type": "text", "id": "handle_1", "label": "Handle 1", "default": "featured" },
+    { "type": "text", "id": "handle_2", "label": "Handle 2", "default": "t-shirts" },
+    { "type": "text", "id": "handle_3", "label": "Handle 3" },
+    { "type": "text", "id": "handle_4", "label": "Handle 4" },
+    { "type": "text", "id": "handle_5", "label": "Handle 5" },
+    { "type": "text", "id": "handle_6", "label": "Handle 6" },
+    { "type": "text", "id": "handle_7", "label": "Handle 7" },
+    { "type": "text", "id": "handle_8", "label": "Handle 8" },
+    { "type": "text", "id": "handle_9", "label": "Handle 9" },
+    { "type": "text", "id": "handle_10", "label": "Handle 10" }
+  ]
+}
+{% endschema %}
+
