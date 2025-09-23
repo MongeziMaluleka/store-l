@@ -1,0 +1,43 @@
+{% comment %}
+  Purpose: Displays a customizable announcement bar at the top of the store.
+{% endcomment %}
+<section class="announcement-bar" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+  <div class="announcement-bar__content">
+    {{ section.settings.announcement_text }}
+  </div>    
+</section>
+
+{% comment %}
+  Schema for the Announcement Bar section
+  Allows customization of announcement text and colors in the theme editor
+{% endcomment %}
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement Text",
+      "default": "Free shipping on orders over R500!"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar"
+    }
+  ]
+}
+{% endschema %}
