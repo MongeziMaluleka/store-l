@@ -15,17 +15,36 @@
       <p class="welcome-description">
         Shop our latest collection now.
       </p>
-{% comment %} 
-      <p class="welcome-description">
-        Themes shape the online store experience for merchants and their customers. Build fast, flexible themes at scale
-        using Liquid, Shopify's theme templating language, along with HTML, CSS, JavaScript, and JSON.
-      </p> {% endcomment %}
     </div>
     <div class="icon">
       <img src="{{ 'shoppy-x-ray.svg' | asset_url }}" width="300" height="300">
     </div>
   </div>
 </div>
+<div class="collections-featured">
+  <h2>Shop by Category</h2>
+  <h1 class="collections-featured__title">{{ 'collections.title' | t }}</h1>
+
+  <div class="collections-featured__grid">
+    {% for collection in collections %}
+      <a class="collection-card" href="{{ collection.url }}">
+        {% if collection.image %}
+          {{ collection.image | image_url: width: 800 | image_tag: alt: collection.title, loading: 'lazy', class: 'collection-card__image' }}
+        {% elsif collection.featured_image %}
+          {{ collection.featured_image | image_url: width: 800 | image_tag: alt: collection.title, loading: 'lazy', class: 'collection-card__image' }}
+        {% endif %}
+
+        <div class="collection-card__content">
+          <p class="collection-card__title">{{ collection.title }}</p>
+          {% if collection.description %}
+            <p class="collection-card__desc">{{ collection.description | strip_html | truncatewords: 15 }}</p>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
 
 <div class="featured">
   <div class="collection">
@@ -76,37 +95,6 @@
     {%- endif -%}
   </div>
 </div>
-
-
-
-  {% comment %} <div class="highlights">
-  <div class="highlight">
-    <h3>Key Concepts</h3>
-    <p class="highlight-description">
-      Shopify themes are a package of template files, building blocks, and supporting assets. Use these building blocks
-      to create modular, customizable themes.
-    </p>
-    <p>{{ 'Learn more about key concepts' | link_to: 'https://shopify.dev/docs/storefronts/themes/architecture' }}</p>
-  </div>
-
-  <div class="highlight">
-    <h3>Liquid</h3>
-    <p class="highlight-description">
-      The Liquid templating language is the backbone of Shopify themes, and is used to load dynamic content on
-      storefronts. Extend Liquid objects to store and present custom data using metafields.
-    </p>
-    <p>{{ 'View the Liquid reference' | link_to: 'https://shopify.dev/docs/api/liquid' }}</p>
-  </div>
-
-  <div class="highlight">
-    <h3>Best Practices</h3>
-    <p class="highlight-description">
-      To optimize your theme development experience, Shopify has established a set of best practices that you can refer
-      to when developing your theme and setting up your toolchains and processes.
-    </p>
-    <p>{{ 'Follow best practices' | link_to: 'https://shopify.dev/docs/storefronts/themes/best-practices' }}</p>
-  </div>
-</div> {% endcomment %}
 
 {%- style -%}
   .hero {
@@ -243,6 +231,68 @@
     font-size: 14px;
   }
   .announcement-bar__inner:hover { text-decoration: underline; }
+
+.collections-featured {
+  justify-content: center;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 0 24px;
+  }
+
+  .collections-featured__title {
+    font-size: 32px;
+    margin: 10px 0 5px;
+  }
+
+  .collections-featured__grid {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    
+    gap: 0px;
+    margin-top: 20px;
+    max-width: 1200px;
+  
+    margin-left: auto;
+  }
+
+  .collection-card {
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .collection-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .collection-card__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .collection-card__content {
+    padding: 16px;
+  }
+
+  .collection-card__title {
+    font-size: 18px;
+    margin: 0 0 8px;
+    color:black;
+    
+  }
+
+  .collection-card__desc {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+  }
 {%-endstyle -%}
 
 {% schema %}
