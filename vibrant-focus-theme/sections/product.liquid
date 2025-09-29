@@ -5,42 +5,122 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
+<div class="product-container">
+  <div class="product-images">
+   {% for image in product.images %}
+     {% render 'image', class: 'product-image', image: image %}
+   {% endfor %}
+  </div>
+
+  <div class="product-details-stack">
+    <div class="product-info">
+      <h1>{{ product.title }}</h1>
+      <p>{{ product.price | money }}</p>
+      <p>{{ product.description }}</p>
+    </div>
+
+    <div class="product-form">
+      {% form 'product', product %}
+        {% assign current_variant = product.selected_or_first_available_variant %}
+
+        <select name="id">
+          {% for variant in product.variants %}
+            <option
+              value="{{ variant.id }}"
+              {% if variant == current_variant %}
+                
+                selected="selected"
+              {% endif %}
+            >
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {% endfor %}
+        </select>
+        <input type="text" name="quantity" min="1" value="1">
+
+        <input type="submit" value="Add to cart">
+        {{ form | payment_button }}
+      {% endform %}
+  </div>  
 </div>
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+{% stylesheet %}
+  .product-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    /* border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
+    background-color: #fff;
+    max-width: 100%;
+  }
+  .product-images {
+    flex:1;
+    max-width: 100%;
+    gap: 10px;
+    border-radius: 8px;
+    padding: 20px;
+    
+  }
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+  .product-details-stack {
+    flex:2;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+  }
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
+  .product-info {
+    margin-top: 10px;
+  }
+  .product-info h1 {
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    margin-bottom: 20px;
+  }
+  .product-info p {
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+    width: 70% ;
+    font-size: 0.7rem;
+  }
+  .product-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    
+  }
+  
+  .product-form select,
+  .product-form input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 60px;
 
-    <input type="text" name="quantity" min="1" value="1">
+  }
+  .product-form input[type="submit"] {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%;
+  }
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
+  .shopify-payment-button {
+    margin-top: 10px;
+    display: flex;
+    width: 50%;
 
+  }
+
+
+{% endstylesheet %}
 {% schema %}
 {
   "name": "t:general.product",
