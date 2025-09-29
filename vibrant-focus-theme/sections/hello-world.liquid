@@ -16,9 +16,13 @@
         Shop our latest collection now.
       </p>
     </div>
-    <div class="icon">
+    {% comment %} <div  class="backrgound-image">
+      <img src="{{ 'hero.jpg' | asset_url }}" width="400" height="400" alt="Hero Image">
+    </div> {% endcomment %}
+
+    {% comment %} <div class="icon">
       <img src="{{ 'shoppy-x-ray.svg' | asset_url }}" width="300" height="300">
-    </div>
+    </div> {% endcomment %}
   </div>
 </div>
 <div class="collections-featured">
@@ -99,24 +103,32 @@
 {%- style -%}
   .hero {
     display: grid;
-    grid-template-columns: minmax(1rem, 1fr) minmax(auto, 1200px) minmax(1rem, 1fr);
+    /* grid-template-columns: minmax(1rem, 1fr) minmax(auto, 1200px) minmax(1rem, 1fr); */
     padding: 4rem 0;
-    background-color: #f6f9ff;
-  }
-  .hero--{{ section.id }} {
-  {% if section.settings.bg_image %}
-    background-image: url({{ section.settings.bg_image | image_url: width: 2000 }});
-    background-position: center;
-    background-size: cover;
+    background-color: #e5eaf5ff;
+    background-image: url('{{ 'hero.jpg' | asset_url }}');
     background-repeat: no-repeat;
-  {% endif %}
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    min-height: 400px;
   }
 
+  
+
+  /* .hero .backrgound-image img {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 400px;
+    height: auto;
+  } */
+
   .welcome-content {
-    grid-column: 2;
+    /* grid-column: 2; */
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 200px;
     gap: 1rem;
     width: 100%;
     padding: 0 24px;
@@ -125,7 +137,7 @@
   .welcome-description {
     max-width: 80ch;
     line-height: 1.4;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
   }
 
   .icon {
