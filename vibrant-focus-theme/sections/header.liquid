@@ -1,4 +1,25 @@
 <header>
+  <div class="menu-icon">
+    {{ 'icon-menu.svg' | inline_asset_content }}
+  </div>
+
+
+   <div class="sidebar-overlay">
+    <div class="sidebar-menu">
+      <div class="sidebar-menu__close">
+        {{ 'icon-close.svg' | inline_asset_content }}
+      </div>
+      <div class="sidebar-menu__content">
+        {% for link in section.settings.menu.links %}
+          {{ link.title | link_to: link.url }}
+        {% endfor %}
+        {% for collection in collections %}
+          {{ collection.title | link_to: collection.url }}
+        {% endfor %}
+      </div>
+    </div>
+   </div>
+
   <h2 class="header__title">
     {{ shop.name | link_to: routes.root_url }}
   </h2>
@@ -52,11 +73,100 @@
   header svg {
     width: 2rem;
   }
+  .menu-icon {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    background-color: #000;  
+    border-radius: 10%;
+  }
+
+  .menu-icon svg .icon-close{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+  }
+
+  .menu-icon.open svg.icon-menu{
+    display: block;
+  }
+  .menu-icon.open svg.icon-menu {
+    display: none;
+  }
+  .sidebar-overlay {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.92);
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem 1.2rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.sidebar-menu {
+  width: 320px;
+  max-width: 80vw;
+  background: #111;
+  color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.sidebar-menu__close {
+  align-self: flex-end;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu__close svg {
+  width: 2rem;
+  height: 2rem;
+  fill: white;
+  
+}
+
+.sidebar-menu__content a {
+  display: block;
+  color: white;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  text-transform: capitalize;
+}
+
+.sidebar-menu__content a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .sidebar-menu {
+    width: 90vw;
+  }
+}
   header .header__menu,
   header .header__icons {
     display: flex;
     gap: 1rem;
-    
+    align-items: center;
+    justify-content: space-between;
+  }
+
+
+  .header__title{
+    margin-right: 1150px;
   }
   .header_collections{
     display: flex;
@@ -73,8 +183,25 @@
     transform: translateX(-50%);
     /* background-color: red; */
     padding: 0.5rem;
+    z-index: 1001;
   
+  }
+  @media (max-width: 1550px) {
+    .header_collections{
+      font-size: 9px;
+      letter-spacing: 0.2rem;
+      transition: all 0.3s ease-in-out;
+      transform: translateX(0);
 
+      
+    }
+  }
+  @media (max-width: 1200px) {
+    .header_collections{
+      display: none;
+      
+      
+    }
   }
 {% endstylesheet %}
 
@@ -90,3 +217,35 @@
   ]
 }
 {% endschema %}
+
+{%  javascript %}
+  
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    const sidebarClose = document.querySelector('.sidebar-menu__close');
+  
+    if (menuIcon && sidebarOverlay && sidebarClose) {
+      menuIcon.addEventListener('click', function () {
+        sidebarOverlay.style.display = 'flex';
+        menuIcon.classList.add('open');
+        document.body.style.overflow = 'hidden'; // Prevent body scroll
+      });
+  
+      sidebarClose.addEventListener('click', function () {
+        sidebarOverlay.style.display = 'none';
+        menuIcon.classList.remove('open');
+        document.body.style.overflow = ''; // Restore scroll
+      });
+  
+      // close by clicking outside sidebar menu
+      sidebarOverlay.addEventListener('click', function (e) {
+        if (e.target === sidebarOverlay) {
+          sidebarOverlay.style.display = 'none';
+          menuIcon.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
+{% endjavascript %}  
